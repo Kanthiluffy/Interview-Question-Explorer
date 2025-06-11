@@ -1,6 +1,27 @@
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Automatically determine API base URL based on environment
+const getApiBase = () => {
+  // In production, API is served from the same domain
+  if (process.env.NODE_ENV === 'production') {
+    return `${window.location.origin}/api`;
+  }
+  
+  // In development, use environment variable or localhost
+  return process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+};
+
+const API_BASE = getApiBase();
+
+// Log API base for debugging (only in development)
+if (process.env.NODE_ENV !== 'production') {
+  console.log('🔗 API Base URL:', API_BASE);
+  console.log('🌍 Environment:', process.env.NODE_ENV);
+  console.log('🏠 Origin:', window.location.origin);
+} else {
+  // In production, just log once to verify
+  console.log('Production API URL:', API_BASE);
+}
 
 // Map interview_questions
 function mapInterviewQuestion(q) {
