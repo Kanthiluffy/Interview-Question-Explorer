@@ -30,9 +30,14 @@ if (process.env.NODE_ENV === 'production') {
   // Serve static files from the React app build directory
   app.use(express.static(path.join(__dirname, '../frontend/build')));
   
-  // Handle React routing, return all requests to React app
+  // Handle React routing, return all requests that don't start with /api to React app
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    // Only serve index.html for non-API routes
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+    } else {
+      res.status(404).json({ error: 'API endpoint not found' });
+    }
   });
 } else {
   app.get("/", (req, res) => {
@@ -40,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Error handler
+// Error handler (must be last)
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

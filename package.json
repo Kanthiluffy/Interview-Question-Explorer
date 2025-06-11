@@ -11,7 +11,7 @@
     "dev:backend": "nodemon backend/server.js",
     "dev:both": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "clean": "rimraf frontend/build backend/node_modules frontend/node_modules",
-    "deploy:build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "deploy:build": "npm cache clean --force && npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "deploy:start": "cd backend && npm start"
   },
   "type": "module",
@@ -23,7 +23,7 @@
     "axios": "^1.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0",
+    "express": "^4.19.2",
     "express-validator": "^7.2.1",
     "mongoose": "^8.15.1"
   },
